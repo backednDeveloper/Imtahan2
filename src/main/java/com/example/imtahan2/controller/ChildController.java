@@ -28,7 +28,7 @@ public List<Child> getAllChild(){
     public Child deleteGetById(@PathVariable int id){
     return servise.deleteGetById(id);
     }
-    @PutMapping("updateChild,{id}")
+    @PutMapping("/updateChild,{id}")
     public Child updateById(@RequestBody Child child, @PathVariable int id){
     return servise.updateById(child,id);
     }

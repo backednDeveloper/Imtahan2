@@ -14,7 +14,7 @@ public class ParentServise {
     public List<Parent> getAllParent(){
         return  repository.getAllParent();
     }
-    public List<Parent> getParentById(int id){
+    public Parent getParentById(int id){
         return repository.getParentById(id);
     }
     public Parent creatTeacher(Parent parent){

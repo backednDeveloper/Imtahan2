@@ -13,15 +13,14 @@ import java.util.List;
 public class ParentReporsitory implements Reporsitory{
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private  RowMapper<Parent> rowMapper = (rs, rowNum) -> {
-        Parent parent = new Parent();
-        parent.setId(BigInteger.valueOf(rs.getInt(1)));
-        parent.setName(rs.getString(2));
-        parent.setSurname(rs.getString(3));
-        parent.setBirth_date(rs.getDate(4));
-        parent.setJob_name(rs.getString(5));
-        return parent;
-    };
+    private  RowMapper<Parent> rowMapper = (rs, rowNum) -> (new Parent(
+       rs.getInt(1),
+            rs.getString(2),
+            rs.getString(3),
+            rs.getDate(4),
+            rs.getString(5)
+        ));
+
 
     @Override
     public List<Parent> getAllParent() {
@@ -30,31 +29,30 @@ public class ParentReporsitory implements Reporsitory{
     }
 
     @Override
-    public List<Parent> getParentById(int id) {
+    public Parent getParentById(int id) {
         String sql = "SELECT * FROM Parent WHERE id = ?";
-         jdbcTemplate.query(sql, new Object[]{id}, rowMapper);
-        return null;
-    }
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
 
+    }
     @Override
     public Parent creatTeacher(Parent parent) {
         String sql = "INSERT INTO Parent(name,surname,birth_date,job_name) VALUES(?,?,?,?)";
-        int update = jdbcTemplate.update(sql, parent.getName(), parent.getSurname(), parent.getBirth_date()
+         jdbcTemplate.update(sql, parent.getName(), parent.getSurname(), parent.getBirth_date()
                 , parent.getJob_name());
         return parent;
     }
 
     @Override
     public  Parent deleteGetById(int id) {
-        String sql = "delete from parent where id=?";
+        String sql = "delete from Parent where id=?";
         jdbcTemplate.update(sql,id);
         return null;
     };
 
     @Override
     public Parent updateById(Parent parent, int id) {
-        String sql = "UPDATE teacher SET name=?,surname=?, birth_date=?,job_name=? WHERE id=?";
-        int update = jdbcTemplate.update(sql, id);
+        String sql = "UPDATE Parent SET  name=?,surname=?, birth_date=?,job_name=? WHERE id=?";
+       jdbcTemplate.update(sql, parent.getName(), parent.getSurname(),parent.getBirth_date(),parent.getJob_name(), getParentById(id));
         return parent;
     }
 }

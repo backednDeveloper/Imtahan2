@@ -1,25 +1,23 @@
 package com.example.imtahan2.reporsitory;
 
 import com.example.imtahan2.entıty.Child;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Repository
 public class ChildReporsitory implements ChildReporsitory1 {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RowMapper<Child> rowMapper = (rs, rowNum) -> {
-        Child child = new Child();
-        child.setId(BigInteger.valueOf(rs.getInt(1)));
-        child.setName(rs.getString(2));
-        child.setBirth_date(rs.getDate(3));
-        return child;
-    };
+    private  RowMapper<Child> rowMapper = (rs, rowNum) -> (new Child(
+            rs.getInt(1),
+            rs.getString(2),
+            rs.getDate(4)
+    ));
     @Override
     public List<Child> getAllChild() {
         String sql = "select * from Child";
@@ -29,8 +27,8 @@ public class ChildReporsitory implements ChildReporsitory1 {
     @Override
     public List<Child> getChildById(int id) {
         String sql = "SELECT * FROM Child WHERE id = ?";
-        jdbcTemplate.query(sql, new Object[]{id}, rowMapper);
-        return null;
+        return jdbcTemplate.query(sql, new Object[]{id}, rowMapper);
+
     }
 
     @Override
@@ -50,8 +48,8 @@ public class ChildReporsitory implements ChildReporsitory1 {
 
     @Override
     public Child updateById(Child child, int id) {
-        String sql = "UPDATE teacher SET name=?,surname=?, birth_date=?,job_name=? WHERE id=?";
-        int update = jdbcTemplate.update(sql, id);
+        String sql = "UPDATE teacher SET name=?,birth_date=? WHERE id=?";
+        jdbcTemplate.update(sql, child.getName(), child.getBirth_date(), getChildById(id));
         return child;
     }
 }
