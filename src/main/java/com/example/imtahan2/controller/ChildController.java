@@ -17,19 +17,19 @@ public List<Child> getAllChild(){
     return servise.getAllChild();
 }
 @GetMapping("getChildById,{id}")
-    public List<Child> getChildById(int id){
+    public List<Child> getChildById(@PathVariable int id){
     return servise.getChildById(id);
     }
     @PostMapping("createChild")
-    public Child creatChild(Child child){
+    public Child creatChild(@RequestBody  Child child){
     return servise.creatChild(child);
     }
     @DeleteMapping("deleteChild,{id}")
-    public Child deleteGetById(int id){
+    public Child deleteGetById(@PathVariable int id){
     return servise.deleteGetById(id);
     }
     @PutMapping("updateChild,{id}")
-    public Child updateById(Child child, int id){
+    public Child updateById(@RequestBody Child child, @PathVariable int id){
     return servise.updateById(child,id);
     }
 

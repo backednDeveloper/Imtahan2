@@ -18,19 +18,19 @@ public class ParentController {
       return servise.getAllParent();
     }
     @GetMapping("/Parent,{id}")
-    public List<Parent> getParentById(int id){
+    public List<Parent> getParentById(@PathVariable int id){
         return servise.getParentById(id);
     }
     @PostMapping("/createparent")
-    public Parent creatTeacher(Parent parent){
+    public Parent creatTeacher(@RequestBody Parent parent){
         return servise.creatTeacher(parent);
     }
     @DeleteMapping("deleteParent,{id}")
-    public  Parent deleteGetById(int id){
+    public  Parent deleteGetById(@PathVariable int id){
         return servise.deleteGetById(id);
     }
     @PutMapping("/updateParent,{id}")
-    public Parent updateById(Parent parent, int id){
+    public Parent updateById(@RequestBody Parent parent, @PathVariable int id){
         return servise.updateById(parent,id);
     }
 

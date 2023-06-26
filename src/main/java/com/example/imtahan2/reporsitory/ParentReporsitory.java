@@ -39,9 +39,9 @@ public class ParentReporsitory implements Reporsitory{
     @Override
     public Parent creatTeacher(Parent parent) {
         String sql = "INSERT INTO Parent(name,surname,birth_date,job_name) VALUES(?,?,?,?)";
-         jdbcTemplate.update(sql, parent.getName(), parent.getSurname(),parent.getBirth_date()
-        ,parent.getJob_name());
-         return parent;
+        int update = jdbcTemplate.update(sql, parent.getName(), parent.getSurname(), parent.getBirth_date()
+                , parent.getJob_name());
+        return parent;
     }
 
     @Override
